@@ -3,19 +3,12 @@ machine:
     - docker
 
 dependencies:
-  cache_directories:
-    - "~/docker"
   override:
     - mvn clean package docker:build
 
-test:
-  override:
-    - docker run -d -p 8761:8761 dididu/eureka-server; sleep 10
-    - curl --retry 10 --retry-delay 5 -v http://localhost:8761
-
-#deployment:
-#  hub:
-#    branch: master
-#    commands:
-#      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-#      - docker push dididu/eureka-server
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push dididu/eureka-server
